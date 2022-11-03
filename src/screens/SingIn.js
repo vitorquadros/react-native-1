@@ -9,6 +9,7 @@ import {
   Text,
 } from 'react-native';
 import MyButton from '../componentes/MyButton';
+import auth from '@react-native-firebase/auth';
 
 // import { Container } from './styles';
 
@@ -17,6 +18,17 @@ const SingIn = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(true);
+
+  const entrar = async () => {
+    if (email !== '' && password !== '') {
+      try {
+        await auth().signInWithEmailAndPassword(email, password);
+        navigation.navigate('AppStack');
+      } catch (error) {
+        console.error('SignIn, entrar: ' + error);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,10 +59,7 @@ const SingIn = ({navigation}) => {
             onPress={() => navigation.navigate('RecuperarSenha')}>
             Esqueceu sua senha?
           </Text>
-          <MyButton
-            texto="ENTRAR"
-            onClick={() => navigation.navigate('AppStack')}
-          />
+          <MyButton texto="ENTRAR" onClick={entrar} />
         </View>
         <View style={styles.divInferior}>
           <View style={styles.divOuHr}>
