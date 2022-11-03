@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import MyButton from '../componentes/MyButton';
 
 const Home = () => {
-  const [cont, setCont] = useState(10);
+  const [cont, setCont] = useState(0);
 
   //exemplos de controle de ciclo de vida
   //na construção do componente

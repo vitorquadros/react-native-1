@@ -12,7 +12,7 @@ import MyButton from '../componentes/MyButton';
 
 // import { Container } from './styles';
 
-const SingIn = () => {
+const SingIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -42,10 +42,15 @@ const SingIn = () => {
             returnKeyType="go"
             onChangeText={t => setPassword(t)}
           />
-          <Text style={styles.textEsqueceuSenha} onPress={() => alert('foi')}>
+          <Text
+            style={styles.textEsqueceuSenha}
+            onPress={() => navigation.navigate('RecuperarSenha')}>
             Esqueceu sua senha?
           </Text>
-          <MyButton texto="ENTRAR" onClick={() => alert('foi')} />
+          <MyButton
+            texto="ENTRAR"
+            onClick={() => navigation.navigate('AppStack')}
+          />
         </View>
         <View style={styles.divInferior}>
           <View style={styles.divOuHr}>
@@ -55,7 +60,9 @@ const SingIn = () => {
           </View>
           <View style={styles.divCadastrarSe}>
             <Text style={styles.textNormal}>Não tem uma conta?</Text>
-            <Text style={styles.textCadastrarSe} onPress={() => alert('foi')}>
+            <Text
+              style={styles.textCadastrarSe}
+              onPress={() => navigation.navigate('SignUp')}>
               Cadastre-se
             </Text>
           </View>
