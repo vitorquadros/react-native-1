@@ -7,6 +7,7 @@ import SingIn from './src/screens/SingIn';
 import SignUp from './src/screens/SignUp';
 import RecuperarSenha from './src/screens/RecuperarSenha';
 import OutraHome from './src/screens/OutraHome';
+import Preload from './src/screens/Preload';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -15,10 +16,11 @@ export default function App() {
   const AuthStack = () => {
     return (
       <Stack.Navigator
-        initialRouteName="SingIn"
+        initialRouteName="Preload"
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen name="Preload" component={Preload} />
         <Stack.Screen name="SingIn" component={SingIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />

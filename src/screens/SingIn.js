@@ -7,11 +7,12 @@ import {
   TextInput,
   View,
   Text,
+  Alert,
 } from 'react-native';
 import MyButton from '../componentes/MyButton';
 import auth from '@react-native-firebase/auth';
-
-// import { Container } from './styles';
+import {CommonActions} from '@react-navigation/native';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const SingIn = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -19,14 +20,47 @@ const SingIn = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(true);
 
+  async function storeUserSession(localUser) {
+    try {
+      await EncryptedStorage.setItem('user_session', JSON.stringify(localUser));
+    } catch (error) {
+      console.error('SingIn, storeUserSession: ' + error);
+    }
+  }
+
   const entrar = async () => {
     if (email !== '' && password !== '') {
       try {
         await auth().signInWithEmailAndPassword(email, password);
-        navigation.navigate('AppStack');
+        await storeUserSession({
+          email,
+          password,
+        });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'AppStack'}],
+          }),
+        );
       } catch (error) {
         console.error('SignIn, entrar: ' + error);
+        switch (error.code) {
+          case 'auth/user-not-found':
+            Alert.alert('Erro', 'Usuário não cadastrado.');
+            break;
+          case 'auth/wrong-password':
+            Alert.alert('Erro', 'Erro na senha.');
+            break;
+          case 'auth/invalid-email':
+            Alert.alert('Erro', 'Email inválido.');
+            break;
+          case 'auth/user-disabled':
+            Alert.alert('Erro', 'Usuário desabilitado.');
+            break;
+        }
       }
+    } else {
+      Alert.alert('Atenção', 'Você deve preencher todos os campos.');
     }
   };
 
