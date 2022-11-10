@@ -8,6 +8,8 @@ import SignUp from './src/screens/SignUp';
 import RecuperarSenha from './src/screens/RecuperarSenha';
 import OutraHome from './src/screens/OutraHome';
 import Preload from './src/screens/Preload';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {COLORS} from './src/assets/colors';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,8 +36,26 @@ export default function App() {
       screenOptions={{
         headerShown: false,
       }}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="OutraHome" component={OutraHome} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: () => (
+            <Icon name="people" color={COLORS.primary} size={20} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="OutraHome"
+        component={OutraHome}
+        options={{
+          tabBarLabel: 'OutraHome',
+          tabBarIcon: () => (
+            <Icon name="people" color={COLORS.primary} size={20} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 
