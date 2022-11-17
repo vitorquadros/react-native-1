@@ -14,7 +14,7 @@ const MyButton = props => {
 export default MyButton;
 
 const StyledButton = styled.TouchableHighlight`
-  background-color: lightgreen;
+  background-color: gray;
   border-radius: 10px;
   color: white;
   margin-top: 20px;
