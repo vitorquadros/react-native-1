@@ -18,13 +18,30 @@ const SignUp = ({navigation}) => {
           auth()
             .createUserWithEmailAndPassword(email, password)
             .then(res => {
-              Alert.alert('Informação', 'Usuário cadastro com sucesso.');
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'Preload'}],
-                }),
-              );
+              let userFirebase = auth().currentUser;
+              userFirebase
+                .sendEmailVerification()
+                .then(() => {
+                  Alert.alert(
+                    'Atenção',
+                    'Um email de verificação foi enviado para: ' + email,
+                    [
+                      {
+                        text: 'OK',
+                        onPress: () =>
+                          navigation.dispatch(
+                            CommonActions.reset({
+                              index: 0,
+                              routes: [{name: 'Preload'}],
+                            }),
+                          ),
+                      },
+                    ],
+                  );
+                })
+                .catch(error => {
+                  console.log('SignUp, cadastrar: ' + error);
+                });
             })
             .catch(error => {
               if (error.code === 'auth/email-already-in-use') {

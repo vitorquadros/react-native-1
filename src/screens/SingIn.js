@@ -32,6 +32,10 @@ const SingIn = ({navigation}) => {
     if (email !== '' && password !== '') {
       try {
         await auth().signInWithEmailAndPassword(email, password);
+        if (!auth().currentUser.emailVerified) {
+          Alert.alert('Atenção', 'Email não verificado!');
+          return;
+        }
         await storeUserSession({
           email,
           password,
