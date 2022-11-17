@@ -25,7 +25,11 @@ export default function App() {
         <Stack.Screen name="Preload" component={Preload} />
         <Stack.Screen name="SingIn" component={SingIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
+        <Stack.Screen
+          name="RecuperarSenha"
+          component={RecuperarSenha}
+          options={recoverStyle}
+        />
       </Stack.Navigator>
     );
   };
@@ -72,3 +76,9 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const recoverStyle = {
+  title: 'Recuperar senha',
+  headerStyle: 'orange',
+  headerTitleStyle: 'white',
+};
