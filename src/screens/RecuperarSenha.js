@@ -10,7 +10,7 @@ const RecuperarSenha = ({navigation}) => {
   useEffect(() => {
     navigation.setOptions({
       title: 'Recuperar Senha',
-      headerStyle: {backgroundColor: 'orange'},
+      headerStyle: {backgroundColor: 'darkred'},
       headerTitleStyle: {color: 'white'},
     });
   }, [navigation]);

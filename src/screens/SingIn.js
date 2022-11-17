@@ -20,7 +20,7 @@ const SingIn = ({navigation}) => {
   useEffect(() => {
     navigation.setOptions({
       title: 'Fazer login',
-      headerStyle: {backgroundColor: 'lightgray'},
+      headerStyle: {backgroundColor: 'darkred'},
       headerTitleStyle: {color: 'white'},
     });
   }, [navigation]);
@@ -161,7 +161,7 @@ const StyledInput = styled.TextInput`
 
 const TextEsqueceuSenha = styled.Text`
   font-size: 15px;
-  color: blue;
+  color: darkred;
   align-self: flex-end;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -203,6 +203,6 @@ const TextNormal = styled.Text`
 
 const TextCadastrarSe = styled.Text`
   font-size: 16px;
-  color: blue;
+  color: darkred;
   margin-left: 5px;
 `;

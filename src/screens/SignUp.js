@@ -12,7 +12,7 @@ const SignUp = ({navigation}) => {
   useEffect(() => {
     navigation.setOptions({
       title: 'Realizar cadastro',
-      headerStyle: {backgroundColor: 'orange'},
+      headerStyle: {backgroundColor: 'darkred'},
       headerTitleStyle: {color: 'white'},
     });
   }, [navigation]);

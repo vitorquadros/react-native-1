@@ -7,7 +7,7 @@ const Home = ({navigation}) => {
     navigation.setOptions({
       headerLeft: false,
       title: 'Home page',
-      headerStyle: {backgroundColor: 'orange'},
+      headerStyle: {backgroundColor: 'darkred'},
       headerTitleStyle: {color: 'white'},
       headerRight: () => <SignOutButton texto="Logout" />,
     });
