@@ -13,6 +13,7 @@ import MyButton from '../componentes/MyButton';
 import auth from '@react-native-firebase/auth';
 import {CommonActions} from '@react-navigation/native';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SingIn = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -39,6 +40,8 @@ const SingIn = ({navigation}) => {
           return;
         }
         getUser();
+        const user = {email, password};
+        AsyncStorage.setItem('user_session', JSON.stringify(user));
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

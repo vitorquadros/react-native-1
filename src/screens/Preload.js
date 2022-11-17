@@ -4,6 +4,7 @@ import {View, Text, Alert} from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import auth from '@react-native-firebase/auth';
 import {CommonActions} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Preload = ({navigation}) => {
   const entrar = async (email, password) => {
@@ -40,7 +41,7 @@ const Preload = ({navigation}) => {
 
   async function retrieveUserSession() {
     try {
-      const session = await EncryptedStorage.getItem('user_session');
+      const session = await AsyncStorage.getItem('user_session');
 
       if (session) {
         let localUser = JSON.parse(session);

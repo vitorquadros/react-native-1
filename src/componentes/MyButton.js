@@ -1,5 +1,6 @@
 import React from 'react';
 import {TouchableHighlight, Text, StyleSheet} from 'react-native';
+import styled from 'styled-components';
 
 const MyButton = props => {
   //console.log(props);
@@ -22,3 +23,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+// const StyledButton = styled.TouchableHighlight`
+//   background-color: 'green';
+//   padding: 20;
+//   border-radius: 10;
+//   color: 'white';
+//   margin-top: 20;
+// `;

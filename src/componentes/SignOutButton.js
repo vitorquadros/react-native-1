@@ -1,15 +1,24 @@
 import React from 'react';
 import {TouchableHighlight, Text, StyleSheet} from 'react-native';
 import auth from '@react-native-firebase/auth';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Restart from 'react-native-restart';
 
 const SignOutButton = props => {
   const logout = () => {
-    // AsyncStorage.removeItem('user')
-    //   .then(() => {})
-    //   .catch(e => {
-    //     console.log('SignOutButton, logout: ' + e);
-    //   });
+    AsyncStorage.removeItem('user_session')
+      .then(() => {
+        auth()
+          .signOut()
+          .then(() => {})
+          .catch(error => {
+            console.log(error);
+          });
+        Restart.Restart();
+      })
+      .catch(e => {
+        console.log('SignOutButton, logout: ' + e);
+      });
   };
 
   return (

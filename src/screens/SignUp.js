@@ -49,13 +49,11 @@ const SignUp = ({navigation}) => {
                       );
                     })
                     .catch(error => {
-                      Alert.alert('aa', error);
                       console.log('SignUp, cadastrar: ' + error);
                     });
                 })
                 .catch(error => {
                   console.log('SignUp, cadastrar: ' + error);
-                  Alert.alert('aa', error);
                 });
             })
             .catch(error => {
