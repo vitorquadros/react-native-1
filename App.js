@@ -20,16 +20,12 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Preload"
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
         }}>
         <Stack.Screen name="Preload" component={Preload} />
         <Stack.Screen name="SingIn" component={SingIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen
-          name="RecuperarSenha"
-          component={RecuperarSenha}
-          options={recoverStyle}
-        />
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
       </Stack.Navigator>
     );
   };
@@ -38,7 +34,7 @@ export default function App() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
       }}>
       <Tab.Screen
         name="Home"

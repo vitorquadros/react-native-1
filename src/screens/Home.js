@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import MyButton from '../componentes/MyButton';
-import auth from '@react-native-firebase/auth';
+import React, {useEffect} from 'react';
 import SignOutButton from '../componentes/SignOutButton';
+import styled from 'styled-components';
 
 const Home = ({navigation}) => {
   useEffect(() => {
@@ -15,33 +13,20 @@ const Home = ({navigation}) => {
     });
   }, [navigation]);
 
-  const [cont, setCont] = useState(0);
-
-  const incrementar = () => {
-    setCont(cont + 1);
-  };
-
-  const decrementar = () => {
-    setCont(cont - 1);
-  };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.texto}>Contador= {cont}</Text>
-      <MyButton onClick={incrementar} texto="incrementar" textoX="fasdfs" />
-      <MyButton onClick={decrementar} texto="decrementar" />
-      <SignOutButton texto="Deslogar" />
-    </View>
+    <Container>
+      <StyledText>Homepage do app</StyledText>
+    </Container>
   );
 };
 export default Home;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  texto: {
-    fontSize: 30,
-  },
-});
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+`;
+
+const StyledText = styled.Text`
+  font-size: 20px;
+  margin-top: 50px;
+`;

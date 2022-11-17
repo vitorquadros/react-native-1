@@ -1,8 +1,10 @@
 import React from 'react';
-import {TouchableHighlight, Text, StyleSheet} from 'react-native';
+import {TouchableHighlight, Text, StyleSheet, Image} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Restart from 'react-native-restart';
+import styled from 'styled-components';
+import {padding} from '../utils/padding';
 
 const SignOutButton = props => {
   const logout = () => {
@@ -22,19 +24,21 @@ const SignOutButton = props => {
   };
 
   return (
-    <TouchableHighlight style={styles.logout} onPress={logout}>
-      <Text>{props.texto}</Text>
-    </TouchableHighlight>
+    <StyledButton style={{...padding(10, 20)}} onPress={logout}>
+      <StyledImage source={require('../assets/images/logout.png')} />
+    </StyledButton>
   );
 };
 export default SignOutButton;
 
-const styles = StyleSheet.create({
-  logout: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 10,
-    color: 'white',
-    marginTop: 20,
-  },
-});
+const StyledButton = styled.TouchableHighlight`
+  /* background-color: red; */
+  border-radius: 10px;
+  color: white;
+  margin-top: 20px;
+`;
+
+const StyledImage = styled.Image`
+  max-width: 30px;
+  max-height: 30px;
+`;

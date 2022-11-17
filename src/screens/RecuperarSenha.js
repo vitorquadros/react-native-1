@@ -1,11 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Alert} from 'react-native';
 import MyButton from '../componentes/MyButton';
 import auth from '@react-native-firebase/auth';
+import styled from 'styled-components';
 
 // import { Container } from './styles';
 
 const RecuperarSenha = ({navigation}) => {
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Recuperar Senha',
+      headerStyle: {backgroundColor: 'orange'},
+      headerTitleStyle: {color: 'white'},
+    });
+  }, [navigation]);
+
   const [email, setEmail] = useState('');
 
   const recuperarSenha = () => {
@@ -39,34 +48,32 @@ const RecuperarSenha = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
+    <Container>
+      <StyledInput
         placeholder="Email"
         keyboardType="email-address"
         returnKeyType="next"
         onChangeText={t => setEmail(t)}
       />
       <MyButton texto="Recuperar senha" onClick={recuperarSenha} />
-    </View>
+    </Container>
   );
 };
 
 export default RecuperarSenha;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  input: {
-    width: '95%',
-    height: 50,
-    borderBottomColor: 'grey',
-    borderBottomWidth: 2,
-    fontSize: 16,
-    paddingLeft: 2,
-    paddingBottom: 1,
-    marginTop: 40,
-  },
-});
+export const Container = styled.View`
+  flex: 1;
+  align-items: center;
+`;
+
+export const StyledInput = styled.TextInput`
+  width: 95%;
+  height: 50px;
+  border-bottom-color: grey;
+  border-bottom-width: 2px;
+  font-size: 16px;
+  padding-left: 2px;
+  padding-bottom: 1px;
+  margin-top: 40px;
+`;

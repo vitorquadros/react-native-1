@@ -14,6 +14,7 @@ import auth from '@react-native-firebase/auth';
 import {CommonActions} from '@react-navigation/native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import styled from 'styled-components';
 
 const SingIn = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -71,126 +72,129 @@ const SingIn = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Container>
       <ScrollView>
-        <View style={styles.divSuperior}>
-          <Image
-            style={styles.image}
-            source={require('../assets/images/logo.png')}
+        <DivSuperior>
+          <StyledImage
+            source={require('../assets/images/chama.png')}
             accessibilityLabel="logo do app"
           />
-          <TextInput
-            style={styles.input}
+          <StyledInput
             placeholder="Email"
             keyboardType="email-address"
             returnKeyType="next"
             onChangeText={t => setEmail(t)}
           />
-          <TextInput
-            style={styles.input}
+          <StyledInput
             secureTextEntry={showPass}
             placeholder="Senha"
             keyboardType="default"
             returnKeyType="go"
             onChangeText={t => setPassword(t)}
           />
-          <Text
-            style={styles.textEsqueceuSenha}
+          <TextEsqueceuSenha
             onPress={() => navigation.navigate('RecuperarSenha')}>
             Esqueceu sua senha?
-          </Text>
+          </TextEsqueceuSenha>
           <MyButton texto="ENTRAR" onClick={entrar} />
-        </View>
-        <View style={styles.divInferior}>
-          <View style={styles.divOuHr}>
-            <View style={styles.divHr} />
-            <Text style={styles.textOu}>OU</Text>
-            <View style={styles.divHr} />
-          </View>
-          <View style={styles.divCadastrarSe}>
-            <Text style={styles.textNormal}>Não tem uma conta?</Text>
-            <Text
-              style={styles.textCadastrarSe}
-              onPress={() => navigation.navigate('SignUp')}>
+        </DivSuperior>
+        <DivInferior>
+          <DivOuHr>
+            <DivHr />
+            <TextOu>OU</TextOu>
+            <DivHr />
+          </DivOuHr>
+          <DivCadastrarSe>
+            <TextNormal>Não tem uma conta?</TextNormal>
+            <TextCadastrarSe onPress={() => navigation.navigate('SignUp')}>
               Cadastre-se
-            </Text>
-          </View>
+            </TextCadastrarSe>
+          </DivCadastrarSe>
           {/* {loading && <Loading />} */}
-        </View>
+        </DivInferior>
       </ScrollView>
-    </SafeAreaView>
+    </Container>
   );
 };
 export default SingIn;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  divSuperior: {
-    flex: 5,
-    alignItems: 'center',
-  },
-  divInferior: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  image: {
-    width: 150,
-    height: 150,
-    margin: 5,
-  },
-  input: {
-    width: '95%',
-    height: 50,
-    borderBottomColor: 'grey',
-    borderBottomWidth: 2,
-    fontSize: 16,
-    paddingLeft: 2,
-    paddingBottom: 1,
-  },
-  textEsqueceuSenha: {
-    fontSize: 15,
-    color: 'blue',
-    alignSelf: 'flex-end',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  divOuHr: {
-    width: '100%',
-    height: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  divHr: {
-    width: '30%',
-    height: 1,
-    borderBottomColor: 'grey',
-    borderBottomWidth: 2,
-  },
-  textOu: {
-    marginLeft: 20,
-    marginRight: 20,
-    fontSize: 20,
-    color: 'grey',
-  },
-  divCadastrarSe: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  textNormal: {
-    fontSize: 18,
-  },
-  textCadastrarSe: {
-    fontSize: 16,
-    color: 'blue',
-    marginLeft: 5,
-  },
-});
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  padding: 20px;
+`;
+
+const DivSuperior = styled.View`
+  flex: 5;
+  align-items: center;
+`;
+
+const DivInferior = styled.View`
+  flex: 1;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const StyledImage = styled.Image`
+  width: 150px;
+  height: 150px;
+  margin: 5px;
+`;
+
+const StyledInput = styled.TextInput`
+  width: 95%;
+  height: 50px;
+  border-bottom-color: grey;
+  border-bottom-width: 2px;
+  font-size: 16px;
+  padding-left: 2px;
+  padding-bottom: 1px;
+`;
+
+const TextEsqueceuSenha = styled.Text`
+  font-size: 15px;
+  color: blue;
+  align-self: flex-end;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const DivOuHr = styled.View`
+  width: 100%;
+  height: 30px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DivHr = styled.View`
+  width: 30%;
+  height: 1px;
+  border-bottom-color: grey;
+  border-bottom-width: 2px;
+`;
+
+const TextOu = styled.Text`
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 20px;
+  color: grey;
+`;
+
+const DivCadastrarSe = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
+const TextNormal = styled.Text`
+  font-size: 18px;
+`;
+
+const TextCadastrarSe = styled.Text`
+  font-size: 16px;
+  color: blue;
+  margin-left: 5px;
+`;

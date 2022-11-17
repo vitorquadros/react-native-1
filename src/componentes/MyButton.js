@@ -1,33 +1,21 @@
 import React from 'react';
-import {TouchableHighlight, Text, StyleSheet} from 'react-native';
+import {TouchableHighlight, Text} from 'react-native';
 import styled from 'styled-components';
+import {padding} from '../utils/padding';
 
 const MyButton = props => {
   //console.log(props);
   return (
-    <TouchableHighlight
-      style={styles.buttonEnviar}
-      onPress={() => props.onClick()}>
+    <StyledButton style={{...padding(10, 20)}} onPress={() => props.onClick()}>
       <Text>{props.texto}</Text>
-    </TouchableHighlight>
+    </StyledButton>
   );
 };
 export default MyButton;
 
-const styles = StyleSheet.create({
-  buttonEnviar: {
-    backgroundColor: 'green',
-    padding: 20,
-    borderRadius: 10,
-    color: 'white',
-    marginTop: 20,
-  },
-});
-
-// const StyledButton = styled.TouchableHighlight`
-//   background-color: 'green';
-//   padding: 20;
-//   border-radius: 10;
-//   color: 'white';
-//   margin-top: 20;
-// `;
+const StyledButton = styled.TouchableHighlight`
+  background-color: lightgreen;
+  border-radius: 10px;
+  color: white;
+  margin-top: 20px;
+`;
