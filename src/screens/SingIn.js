@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -17,6 +17,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components';
 
 const SingIn = ({navigation}) => {
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Fazer login',
+      headerStyle: {backgroundColor: 'lightgray'},
+      headerTitleStyle: {color: 'white'},
+    });
+  }, [navigation]);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
