@@ -28,6 +28,8 @@ const SingIn = ({navigation}) => {
     }
   }
 
+  const getUser = () => {};
+
   const entrar = async () => {
     if (email !== '' && password !== '') {
       try {
@@ -36,10 +38,7 @@ const SingIn = ({navigation}) => {
           Alert.alert('Atenção', 'Email não verificado!');
           return;
         }
-        await storeUserSession({
-          email,
-          password,
-        });
+        getUser();
         navigation.dispatch(
           CommonActions.reset({
             index: 0,

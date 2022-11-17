@@ -3,6 +3,7 @@ import {View, Text, TextInput, Alert, StyleSheet} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {CommonActions} from '@react-navigation/native';
 import MyButton from '../componentes/MyButton';
+import firestore from '@react-native-firebase/firestore';
 
 // import { Container } from './styles';
 
@@ -19,28 +20,42 @@ const SignUp = ({navigation}) => {
             .createUserWithEmailAndPassword(email, password)
             .then(res => {
               let userFirebase = auth().currentUser;
-              userFirebase
-                .sendEmailVerification()
+              firestore()
+                .collection('users')
+                .doc(userFirebase.uid)
+                .set({
+                  email: email,
+                })
                 .then(() => {
-                  Alert.alert(
-                    'Atenção',
-                    'Um email de verificação foi enviado para: ' + email,
-                    [
-                      {
-                        text: 'OK',
-                        onPress: () =>
-                          navigation.dispatch(
-                            CommonActions.reset({
-                              index: 0,
-                              routes: [{name: 'Preload'}],
-                            }),
-                          ),
-                      },
-                    ],
-                  );
+                  console.log('Usuário adicionado');
+                  userFirebase
+                    .sendEmailVerification()
+                    .then(() => {
+                      Alert.alert(
+                        'Atenção',
+                        'Um email de verificação foi enviado para: ' + email,
+                        [
+                          {
+                            text: 'OK',
+                            onPress: () =>
+                              navigation.dispatch(
+                                CommonActions.reset({
+                                  index: 0,
+                                  routes: [{name: 'Preload'}],
+                                }),
+                              ),
+                          },
+                        ],
+                      );
+                    })
+                    .catch(error => {
+                      Alert.alert('aa', error);
+                      console.log('SignUp, cadastrar: ' + error);
+                    });
                 })
                 .catch(error => {
                   console.log('SignUp, cadastrar: ' + error);
+                  Alert.alert('aa', error);
                 });
             })
             .catch(error => {
