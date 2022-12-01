@@ -1,7 +1,7 @@
 import {CommonActions} from '@react-navigation/native';
 import React, {useContext} from 'react';
 import {View} from 'react-native';
-import {EstudanteContext} from '../../context/EstudanteContexto';
+import {EstudanteContext} from '../../context/EstudanteProvider';
 
 // import { Container } from './styles';
 

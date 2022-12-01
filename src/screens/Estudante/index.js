@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Container, TextInput} from './styles';
 import MeuButton from '../../componentes/MeuButton';
 import DeleteButton from '../../componentes/DeleteButton';
 import Loading from '../../componentes/Loading';
+import {EstudanteContext, showToast} from '../../context/EstudanteProvider';
 
 const Estudante = ({
   route: {
@@ -13,6 +14,7 @@ const Estudante = ({
   const [curso, setCurso] = useState('');
   const [uid, setUid] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {save, del} = useContext(EstudanteContext);
 
   useEffect(() => {
     console.log(estudante);
@@ -27,12 +29,36 @@ const Estudante = ({
     }
   }, [route]);
 
-  const salvar = () => {
-    alert('Salvar');
+  const salvar = async () => {
+    setLoading(true);
+
+    if (
+      await save({
+        uid,
+        nome,
+        curso,
+      })
+    ) {
+      setLoading(false);
+      showToast('Dados salvos.');
+      setNome('');
+      setCurso('');
+    } else {
+      setLoading(false);
+      Alert.alert('Erro', 'Não foi possível salvar.');
+    }
   };
 
-  const excluir = () => {
-    alert('Excluir');
+  const excluir = async () => {
+    setLoading(true);
+
+    if (await del(uid)) {
+      setLoading(false);
+      showToast('Excluido com sucesso.');
+    } else {
+      setLoading(false);
+      Alert.alert('Erro', 'Não foi possível excluir.');
+    }
   };
 
   return (
