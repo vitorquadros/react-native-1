@@ -6,10 +6,10 @@ import Home from './src/screens/Home';
 import SingIn from './src/screens/SingIn';
 import SignUp from './src/screens/SignUp';
 import RecuperarSenha from './src/screens/RecuperarSenha';
-import OutraHome from './src/screens/OutraHome';
 import Preload from './src/screens/Preload';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {COLORS} from './src/assets/colors';
+import Estudante from './src/screens/Estudante/Estudante';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,10 +47,10 @@ export default function App() {
         }}
       />
       <Tab.Screen
-        name="OutraHome"
-        component={OutraHome}
+        name="Estudante"
+        component={Estudante}
         options={{
-          tabBarLabel: 'OutraHome',
+          tabBarLabel: 'Estudante',
           tabBarIcon: () => (
             <Icon name="people" color={COLORS.primary} size={20} />
           ),
@@ -72,9 +72,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const recoverStyle = {
-  title: 'Recuperar senha',
-  headerStyle: 'orange',
-  headerTitleStyle: 'white',
-};
