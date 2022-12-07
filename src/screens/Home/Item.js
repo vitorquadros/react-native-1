@@ -11,39 +11,23 @@ const Button = styled.TouchableHighlight`
   border-radius: 10px;
 `;
 
-const Div = styled.View`
-  width: 100%;
-  height: 35px;
-  flex-direction: row;
-  align-items: baseline;
-`;
-
 const TextNome = styled.Text`
   font-size: 24px;
   text-align: justify;
   color: ${COLORS.white};
 `;
 
-const TextCurso = styled.Text`
+const TextEmail = styled.Text`
   font-size: 16px;
   color: ${COLORS.white};
-`;
-
-const TextAdiantamento = styled.Text`
-  font-size: 14px;
-  color: ${COLORS.white};
-  margin-left: 5px;
 `;
 
 const Item = ({item, onPress}) => {
   return (
     <Button onPress={onPress} underlayColor="transparent">
       <>
-        <TextNome>{item.nome}</TextNome>
-        <Div>
-          <TextCurso>{item.curso}</TextCurso>
-          <TextAdiantamento>{item.adiantamento}</TextAdiantamento>
-        </Div>
+        <TextNome>{item.name}</TextNome>
+        <TextEmail>{item.email}</TextEmail>
       </>
     </Button>
   );

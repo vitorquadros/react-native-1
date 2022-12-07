@@ -9,7 +9,8 @@ import RecuperarSenha from './src/screens/RecuperarSenha';
 import Preload from './src/screens/Preload';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {COLORS} from './src/assets/colors';
-import Estudante from './src/screens/Estudante/Estudante';
+import Estudante from './src/screens/Estudante/index.js';
+import User from './src/screens/User';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name="SingIn" component={SingIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
+        <Stack.Screen name="User" component={User} options={userStyle} />
       </Stack.Navigator>
     );
   };
@@ -72,3 +74,10 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const userStyle = {
+  title: 'Usuário',
+  headerStyle: {backgroundColor: 'darkred'},
+  headerTitleStyle: {color: 'white'},
+  headerTintColor: 'white',
+};

@@ -5,11 +5,7 @@ import DeleteButton from '../../componentes/DeleteButton';
 import Loading from '../../componentes/Loading';
 import {EstudanteContext, showToast} from '../../context/EstudanteProvider';
 
-const Estudante = ({
-  route: {
-    params: {estudante},
-  },
-}) => {
+const Estudante = ({route}) => {
   const [nome, setNome] = useState('');
   const [curso, setCurso] = useState('');
   const [uid, setUid] = useState(null);
@@ -17,11 +13,11 @@ const Estudante = ({
   const {save, del} = useContext(EstudanteContext);
 
   useEffect(() => {
-    console.log(estudante);
-    if (estudante) {
-      setUid(estudante.uid);
-      setNome(estudante.nome);
-      setCurso(estudante.curso);
+    console.log(route.params.estudante);
+    if (route.params.estudante) {
+      setUid(route.params.estudante.uid);
+      setNome(route.params.estudante.nome);
+      setCurso(route.params.estudante.curso);
     } else {
       setUid('');
       setNome('');

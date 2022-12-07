@@ -34,6 +34,7 @@ const SignUp = ({navigation}) => {
                 .doc(userFirebase.uid)
                 .set({
                   email: email,
+                  name: 'Usuário teste',
                 })
                 .then(() => {
                   console.log('Usuário adicionado');
