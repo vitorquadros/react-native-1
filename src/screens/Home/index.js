@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import SignOutButton from '../../componentes/SignOutButton';
 import Item from './Item';
 import {Container, FlatList} from './styles';
 import firestore from '@react-native-firebase/firestore';

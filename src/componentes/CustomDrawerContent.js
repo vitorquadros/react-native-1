@@ -1,18 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import styled from 'styled-components';
 import {COLORS} from '../assets/colors';
 import DrawerHeader from './DrawerHeader';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+import {AuthContext} from '../context/AuthProvider';
 
 export default function CustomDrawerContent({navigation}) {
+  const {signOut} = useContext(AuthContext);
+
   return (
     <Page>
       <Header>
         <DrawerHeader />
       </Header>
       <Body>
-        <ScrollView style={{width: '100%'}}>
+        <ScrollView>
           <DivItem>
             <IconMaterial
               name="home-outline"
@@ -51,9 +54,7 @@ export default function CustomDrawerContent({navigation}) {
 
           <DivItem>
             <IconMaterial name="logout" size={25} color={COLORS.primaryDark} />
-            <ItemMenuText onPress={() => console.log('implementar')}>
-              Sair
-            </ItemMenuText>
+            <ItemMenuText onPress={() => signOut()}>Sair</ItemMenuText>
           </DivItem>
         </ScrollView>
       </Body>
