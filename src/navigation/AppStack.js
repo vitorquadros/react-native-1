@@ -1,4 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StatusBar} from 'react-native';
 import {COLORS} from '../assets/colors';
 import Appointment from '../screens/Appointment';
 import Appointments from '../screens/Appointments';
@@ -11,9 +13,9 @@ import {homeOptions, preloadOptions, userOptions} from './appBarStyles';
 
 const Stack = createNativeStackNavigator();
 
-const App = () => {
+const AppStack = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <StatusBar backgroundColor={COLORS.primaryDark} />
       <Stack.Navigator initialRouteName="Preload">
         <Stack.Screen
@@ -34,4 +36,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default AppStack;

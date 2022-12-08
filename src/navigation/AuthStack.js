@@ -1,4 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StatusBar} from 'react-native';
 import {COLORS} from '../assets/colors';
 import RecuperarSenha from '../screens/RecuperarSenha';
 import SignUp from '../screens/SignUp';
@@ -9,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <StatusBar backgroundColor={COLORS.primaryDark} />
       <Stack.Navigator initialRouteName="SingIn">
         <Stack.Screen

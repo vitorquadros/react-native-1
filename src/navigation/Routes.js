@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
@@ -13,7 +13,7 @@ export default function Routes() {
       authUser ? setUser(authUser) : setUser(null);
     });
 
-    return () => unsubscriber();
+    return unsubscriber;
   }, []);
 
   return (
