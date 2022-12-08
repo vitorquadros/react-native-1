@@ -1,7 +1,5 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StatusBar} from 'react-native';
-import {COLORS} from '../assets/colors';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import CustomDrawerContent from '../componentes/CustomDrawerContent';
 import Appointment from '../screens/Appointment';
 import Appointments from '../screens/Appointments';
 import Home from '../screens/Home';
@@ -9,30 +7,33 @@ import Preload from '../screens/Preload';
 import User from '../screens/User';
 import Vaccine from '../screens/Vaccine';
 import Vaccines from '../screens/Vaccines';
-import {homeOptions, preloadOptions, userOptions} from './appBarStyles';
+import {
+  drawerOptions,
+  homeOptions,
+  preloadOptions,
+  userOptions,
+} from './appBarStyles';
 
-const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const AppStack = () => {
   return (
-    <NavigationContainer independent={true}>
-      <StatusBar backgroundColor={COLORS.primaryDark} />
-      <Stack.Navigator initialRouteName="Preload">
-        <Stack.Screen
-          name="Preload"
-          component={Preload}
-          options={preloadOptions}
-        />
-        <Stack.Screen name="User" component={User} options={userOptions} />
-        <Stack.Screen name="Home" component={Home} options={homeOptions} />
-
-        <Stack.Screen name="Vaccine" component={Vaccine} />
-        <Stack.Screen name="Vaccines" component={Vaccines} />
-
-        <Stack.Screen name="Appointment" component={Appointment} />
-        <Stack.Screen name="Appointments" component={Appointments} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Drawer.Navigator
+      initialRouteName="Preload"
+      screenOptions={drawerOptions}
+      drawerContent={props => <CustomDrawerContent {...props} />}>
+      <Drawer.Screen
+        name="Preload"
+        component={Preload}
+        options={preloadOptions}
+      />
+      <Drawer.Screen name="User" component={User} options={userOptions} />
+      <Drawer.Screen name="Home" component={Home} options={homeOptions} />
+      <Drawer.Screen name="Vaccine" component={Vaccine} />
+      <Drawer.Screen name="Vaccines" component={Vaccines} />
+      <Drawer.Screen name="Appointment" component={Appointment} />
+      <Drawer.Screen name="Appointments" component={Appointments} />
+    </Drawer.Navigator>
   );
 };
 

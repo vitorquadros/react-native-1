@@ -12,12 +12,17 @@ export const homeOptions = {
   title: 'Homepage',
   headerStyle: {backgroundColor: 'darkred'},
   headerTitleStyle: {color: 'white'},
-  // headerRight: () => <SignOutButton texto="Logout" />,
 };
 
 export const userOptions = {
   title: 'Editar Usuário',
   headerStyle: {backgroundColor: 'darkred'},
   headerTitleStyle: {color: 'white'},
+  headerTintColor: 'white',
+};
+
+export const drawerOptions = {
+  headerShown: true,
+  headerStyle: {backgroundColor: 'darkred'},
   headerTintColor: 'white',
 };

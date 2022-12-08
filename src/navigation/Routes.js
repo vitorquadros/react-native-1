@@ -4,6 +4,8 @@ import AppStack from './AppStack';
 import AuthStack from './AuthStack';
 import {AuthContext} from '../context/AuthProvider';
 import auth from '@react-native-firebase/auth';
+import {COLORS} from '../assets/colors';
+import {StatusBar} from 'react-native';
 
 export default function Routes() {
   const {user, setUser} = useContext(AuthContext);
@@ -18,6 +20,7 @@ export default function Routes() {
 
   return (
     <NavigationContainer>
+      <StatusBar backgroundColor={COLORS.primaryDark} />
       {user ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
