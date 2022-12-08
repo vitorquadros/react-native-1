@@ -9,14 +9,6 @@ import Loading from '../componentes/Loading';
 import firestore from '@react-native-firebase/firestore';
 
 const SingIn = ({navigation}) => {
-  useEffect(() => {
-    navigation.setOptions({
-      title: 'Fazer login',
-      headerStyle: {backgroundColor: 'darkred'},
-      headerTitleStyle: {color: 'white'},
-    });
-  }, [navigation]);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,12 +27,12 @@ const SingIn = ({navigation}) => {
         const user = {email, password};
         AsyncStorage.setItem('user_session', JSON.stringify(user));
         setLoading(false);
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{name: 'AppStack'}],
-          }),
-        );
+        // navigation.dispatch(
+        //   CommonActions.reset({
+        //     index: 0,
+        //     routes: [{name: 'Home'}],
+        //   }),
+        // );
       } catch (error) {
         setLoading(false);
         console.error('SignIn, entrar: ' + error);

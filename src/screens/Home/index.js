@@ -35,14 +35,6 @@ const Home = ({navigation}) => {
   };
 
   useEffect(() => {
-    navigation.setOptions({
-      headerLeft: false,
-      title: 'Home page',
-      headerStyle: {backgroundColor: 'darkred'},
-      headerTitleStyle: {color: 'white'},
-      headerRight: () => <SignOutButton texto="Logout" />,
-    });
-
     const unsubscribe = getUsers();
     return () => unsubscribe();
   }, []);

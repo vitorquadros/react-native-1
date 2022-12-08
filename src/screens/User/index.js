@@ -1,7 +1,7 @@
-import {Container} from './styles';
+import {Container, TextInput} from './styles';
 import MeuButton from '../../componentes/MeuButton';
 import firestore from '@react-native-firebase/firestore';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {showToast} from '../../utils/showToast';
 
 const User = ({route, navigation}) => {

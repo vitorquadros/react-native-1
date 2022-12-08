@@ -1,4 +1,25 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "app.json": true,
+    "node_modules": true,
+    "ios": true,
+    "__tests__": true,
+    ".git": true,
+    ".vscode": true,
+    ".bundle": true,
+    "_node-version": true,
+    ".buckconfig": true,
+    ".eslintrc.json": true,
+    ".flowconfig": true,
+    ".prettierrc.js": true,
+    ".watchmanconfig": true,
+    ".ruby-version": true,
+    "babel.config.js": true,
+    "Gemfile": true,
+    "metro.config.js": true,
+    "yarn.lock": true
+  },
+  "explorerExclude.backup": {}
 }

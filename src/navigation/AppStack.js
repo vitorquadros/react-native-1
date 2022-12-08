@@ -1,15 +1,37 @@
+import {NavigationContainer} from '@react-navigation/native';
+import {COLORS} from '../assets/colors';
+import Appointment from '../screens/Appointment';
+import Appointments from '../screens/Appointments';
 import Home from '../screens/Home';
+import Preload from '../screens/Preload';
 import User from '../screens/User';
+import Vaccine from '../screens/Vaccine';
+import Vaccines from '../screens/Vaccines';
+import {homeOptions, preloadOptions, userOptions} from './appBarStyles';
 
-const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function AppStack() {
+const App = () => {
   return (
-    <Drawer.Navigator
-      initialRouteName="Home"
-      drawerContent={props => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="User" component={User} />
-    </Drawer.Navigator>
+    <NavigationContainer>
+      <StatusBar backgroundColor={COLORS.primaryDark} />
+      <Stack.Navigator initialRouteName="Preload">
+        <Stack.Screen
+          name="Preload"
+          component={Preload}
+          options={preloadOptions}
+        />
+        <Stack.Screen name="User" component={User} options={userOptions} />
+        <Stack.Screen name="Home" component={Home} options={homeOptions} />
+
+        <Stack.Screen name="Vaccine" component={Vaccine} />
+        <Stack.Screen name="Vaccines" component={Vaccines} />
+
+        <Stack.Screen name="Appointment" component={Appointment} />
+        <Stack.Screen name="Appointments" component={Appointments} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
+
+export default App;

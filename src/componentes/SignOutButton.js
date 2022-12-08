@@ -32,7 +32,6 @@ const SignOutButton = props => {
 export default SignOutButton;
 
 const StyledButton = styled.TouchableHighlight`
-  /* background-color: red; */
   border-radius: 10px;
   color: white;
   margin-top: 20px;

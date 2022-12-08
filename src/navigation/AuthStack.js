@@ -1,17 +1,27 @@
-import Preload from '../screens/Preload';
+import {NavigationContainer} from '@react-navigation/native';
+import {COLORS} from '../assets/colors';
 import RecuperarSenha from '../screens/RecuperarSenha';
 import SignUp from '../screens/SignUp';
 import SingIn from '../screens/SingIn';
+import {signInOptions} from './appBarStyles';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function AuthStack() {
+const AuthStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Preload">
-      <Stack.Screen name="Preload" component={Preload} />
-      <Stack.Screen name="SingIn" component={SingIn} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <StatusBar backgroundColor={COLORS.primaryDark} />
+      <Stack.Navigator initialRouteName="SingIn">
+        <Stack.Screen
+          name="SingIn"
+          component={SingIn}
+          options={signInOptions}
+        />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
+
+export default AuthStack;

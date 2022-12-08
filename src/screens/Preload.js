@@ -4,18 +4,20 @@ import {View, Text, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {CommonActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from '../componentes/Loading';
+import styled from 'styled-components';
 
 const Preload = ({navigation}) => {
   const entrar = async (email, password) => {
     if (email !== '' && password !== '') {
       try {
         await auth().signInWithEmailAndPassword(email, password);
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{name: 'AppStack'}],
-          }),
-        );
+        // navigation.dispatch(
+        //   CommonActions.reset({
+        //     index: 0,
+        //     routes: [{name: 'Home'}],
+        //   }),
+        // );
       } catch (error) {
         console.error('Preload, entrar: ' + error);
         switch (error.code) {
@@ -46,12 +48,12 @@ const Preload = ({navigation}) => {
         let localUser = JSON.parse(session);
         entrar(localUser.email, localUser.password);
       } else {
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{name: 'SingIn'}],
-          }),
-        );
+        // navigation.dispatch(
+        //   CommonActions.reset({
+        //     index: 0,
+        //     routes: [{name: 'SingIn'}],
+        //   }),
+        // );
       }
     } catch (error) {
       console.error('Preload, retrieveUserSession: ' + error);
@@ -67,10 +69,28 @@ const Preload = ({navigation}) => {
   }, []);
 
   return (
-    <View>
-      <Text>Preload</Text>
-    </View>
+    <Container>
+      <StyledImage
+        source={require('../assets/images/chama.png')}
+        accessibilityLabel="Logo do app"
+      />
+    </Container>
   );
 };
 
 export default Preload;
+
+const Container = styled.View`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledImage = styled.Image`
+  width: 150px;
+  height: 150px;
+`;
