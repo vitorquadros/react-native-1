@@ -1,12 +1,7 @@
 import React, {useState, createContext} from 'react';
-import {ToastAndroid} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 export const EstudanteContext = createContext({});
-
-export const showToast = message => {
-  ToastAndroid.show(message, ToastAndroid.SHORT);
-};
 
 export const EstudanteProvider = ({children}) => {
   const [estudantes, setEstudantes] = useState([]);

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -26,8 +25,8 @@ export default function App() {
         <Stack.Screen name="Preload" component={Preload} />
         <Stack.Screen name="SingIn" component={SingIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
         <Stack.Screen name="User" component={User} options={userStyle} />
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
       </Stack.Navigator>
     );
   };

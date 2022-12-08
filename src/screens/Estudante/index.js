@@ -3,7 +3,8 @@ import {Container, TextInput} from './styles';
 import MeuButton from '../../componentes/MeuButton';
 import DeleteButton from '../../componentes/DeleteButton';
 import Loading from '../../componentes/Loading';
-import {EstudanteContext, showToast} from '../../context/EstudanteProvider';
+import {EstudanteContext} from '../../context/EstudanteProvider';
+import {showToast} from '../../utils/showToast';
 
 const Estudante = ({route}) => {
   const [nome, setNome] = useState('');

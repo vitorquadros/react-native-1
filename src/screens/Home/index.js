@@ -4,28 +4,34 @@ import Item from './Item';
 import {Container, FlatList} from './styles';
 import firestore from '@react-native-firebase/firestore';
 import {CommonActions} from '@react-navigation/native';
+import Loading from '../../componentes/Loading';
 
 const Home = ({navigation}) => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getUsers = () => {
-    firestore()
+    const unsubscribe = firestore()
       .collection('users')
-      .get()
-      .then(querySnapshot => {
-        let d = [];
-        querySnapshot.forEach(doc => {
-          console.log(doc.id, ' => ', doc.data());
-          const user = {
-            id: doc.id,
-            email: doc.data().email,
-            name: doc.data().name,
-          };
-          d.push(user);
-        });
-        setData(d);
-      })
-      .catch(e => console.log('Home, getUsers ' + e));
+      .onSnapshot(
+        querySnapshot => {
+          let d = [];
+          querySnapshot.forEach(doc => {
+            console.log(doc.id, ' => ', doc.data());
+            const user = {
+              id: doc.id,
+              email: doc.data().email,
+              name: doc.data().name,
+            };
+            d.push(user);
+          });
+          setData(d);
+          setLoading(false);
+        },
+        e => console.log('Home, getUsers ' + e),
+      );
+
+    return unsubscribe;
   };
 
   useEffect(() => {
@@ -37,8 +43,9 @@ const Home = ({navigation}) => {
       headerRight: () => <SignOutButton texto="Logout" />,
     });
 
-    getUsers();
-  }, [navigation]);
+    const unsubscribe = getUsers();
+    return () => unsubscribe();
+  }, []);
 
   const routeUser = item => {
     navigation.dispatch(
@@ -60,6 +67,7 @@ const Home = ({navigation}) => {
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
+      {loading && <Loading />}
     </Container>
   );
 };

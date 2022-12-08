@@ -1,20 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Image,
-  TextInput,
-  View,
-  Text,
-  Alert,
-} from 'react-native';
+import {ScrollView, Alert} from 'react-native';
 import MyButton from '../componentes/MyButton';
 import auth from '@react-native-firebase/auth';
 import {CommonActions} from '@react-navigation/native';
-import EncryptedStorage from 'react-native-encrypted-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components';
+import Loading from '../componentes/Loading';
+import firestore from '@react-native-firebase/firestore';
 
 const SingIn = ({navigation}) => {
   useEffect(() => {
@@ -30,27 +22,19 @@ const SingIn = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(true);
 
-  async function storeUserSession(localUser) {
-    try {
-      await EncryptedStorage.setItem('user_session', JSON.stringify(localUser));
-    } catch (error) {
-      console.error('SingIn, storeUserSession: ' + error);
-    }
-  }
-
-  const getUser = () => {};
-
   const entrar = async () => {
     if (email !== '' && password !== '') {
       try {
+        setLoading(true);
         await auth().signInWithEmailAndPassword(email, password);
         if (!auth().currentUser.emailVerified) {
           Alert.alert('Atenção', 'Email não verificado!');
+          setLoading(false);
           return;
         }
-        getUser();
         const user = {email, password};
         AsyncStorage.setItem('user_session', JSON.stringify(user));
+        setLoading(false);
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -58,6 +42,7 @@ const SingIn = ({navigation}) => {
           }),
         );
       } catch (error) {
+        setLoading(false);
         console.error('SignIn, entrar: ' + error);
         switch (error.code) {
           case 'auth/user-not-found':
@@ -121,6 +106,7 @@ const SingIn = ({navigation}) => {
           {/* {loading && <Loading />} */}
         </DivInferior>
       </ScrollView>
+      {loading && <Loading />}
     </Container>
   );
 };
