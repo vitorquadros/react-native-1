@@ -8,6 +8,7 @@ import User from '../screens/User';
 import Vaccine from '../screens/Vaccine';
 import Vaccines from '../screens/Vaccines';
 import {
+  appointmentsOptions,
   drawerOptions,
   homeOptions,
   preloadOptions,
@@ -32,7 +33,11 @@ const AppStack = () => {
       <Drawer.Screen name="Vaccine" component={Vaccine} />
       <Drawer.Screen name="Vaccines" component={Vaccines} />
       <Drawer.Screen name="Appointment" component={Appointment} />
-      <Drawer.Screen name="Appointments" component={Appointments} />
+      <Drawer.Screen
+        name="Appointments"
+        component={Appointments}
+        options={appointmentsOptions}
+      />
     </Drawer.Navigator>
   );
 };

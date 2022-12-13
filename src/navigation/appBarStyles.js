@@ -26,3 +26,7 @@ export const drawerOptions = {
   headerStyle: {backgroundColor: 'darkred'},
   headerTintColor: 'white',
 };
+
+export const appointmentsOptions = {
+  title: 'Consultas',
+};

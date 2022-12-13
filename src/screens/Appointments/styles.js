@@ -3,5 +3,10 @@ import styled from 'styled-components';
 export const Container = styled.SafeAreaView`
   flex: 1;
   align-items: center;
-  padding-top: 20px;
+  justify-content: center;
+`;
+
+export const FlatList = styled.FlatList`
+  width: 95%;
+  height: 100%;
 `;

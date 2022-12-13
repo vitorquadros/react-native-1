@@ -12,7 +12,7 @@ export default function Routes() {
 
   useEffect(() => {
     const unsubscriber = auth().onAuthStateChanged(authUser => {
-      authUser ? setUser(authUser) : setUser(null);
+      authUser && authUser.emailVerified ? setUser(authUser) : setUser(null);
     });
 
     return unsubscriber;

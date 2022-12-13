@@ -51,7 +51,7 @@ const SignUp = ({navigation}) => {
                               navigation.dispatch(
                                 CommonActions.reset({
                                   index: 0,
-                                  routes: [{name: 'Preload'}],
+                                  routes: [{name: 'SingIn'}],
                                 }),
                               ),
                           },

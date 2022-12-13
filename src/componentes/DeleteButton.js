@@ -13,12 +13,10 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff0',
+    backgroundColor: 'red',
     padding: 10,
     margin: 10,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: COLORS.primaryDark,
   },
 });
 

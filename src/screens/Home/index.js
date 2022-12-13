@@ -16,7 +16,6 @@ const Home = ({navigation}) => {
         querySnapshot => {
           let d = [];
           querySnapshot.forEach(doc => {
-            console.log(doc.id, ' => ', doc.data());
             const user = {
               id: doc.id,
               email: doc.data().email,
