@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Item from './Item';
 import {Container, FlatList} from './styles';
-import firestore from '@react-native-firebase/firestore';
+import {AuthContext} from '../../context/AuthProvider';
 import {CommonActions} from '@react-navigation/native';
 import Loading from '../../componentes/Loading';
 
@@ -9,33 +9,12 @@ const Home = ({navigation}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getUsers = () => {
-    const unsubscribe = firestore()
-      .collection('users')
-      .onSnapshot(
-        querySnapshot => {
-          let d = [];
-          querySnapshot.forEach(doc => {
-            const user = {
-              id: doc.id,
-              email: doc.data().email,
-              name: doc.data().name,
-            };
-            d.push(user);
-          });
-          setData(d);
-          setLoading(false);
-        },
-        e => console.log('Home, getUsers ' + e),
-      );
-
-    return unsubscribe;
-  };
+  const {users} = useContext(AuthContext);
 
   useEffect(() => {
-    const unsubscribe = getUsers();
-    return () => unsubscribe();
-  }, []);
+    setData(users);
+    setLoading(false);
+  }, [users]);
 
   const routeUser = item => {
     navigation.dispatch(

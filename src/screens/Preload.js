@@ -7,7 +7,7 @@ import {AuthContext} from '../context/AuthProvider';
 import {AppointmentContext} from '../context/AppointmentProvider';
 
 const Preload = ({navigation}) => {
-  const {setUser} = useContext(AuthContext);
+  const {setUser, getUsers} = useContext(AuthContext);
   const {getAppointments} = useContext(AppointmentContext);
 
   const getUserCache = async () => {
@@ -35,9 +35,11 @@ const Preload = ({navigation}) => {
   useEffect(() => {
     loginUser();
     const unsubscribeAppointments = getAppointments();
+    const unsubscribeUsers = getUsers();
 
     return () => {
       unsubscribeAppointments;
+      unsubscribeUsers;
     };
   }, []);
 

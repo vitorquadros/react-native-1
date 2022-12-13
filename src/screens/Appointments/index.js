@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Container, FlatList} from './styles';
+import {Container, FlatList, TextInput} from './styles';
 import Loading from '../../componentes/Loading';
 import Item from './Item';
 import {CommonActions} from '@react-navigation/native';
 import {AppointmentContext} from '../../context/AppointmentProvider';
 import AddFloatButton from '../../componentes/AddFloatButton';
+import {Text} from 'react-native';
 
 const Appointments = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -13,7 +14,6 @@ const Appointments = ({navigation}) => {
 
   useEffect(() => {
     setData(appointment);
-    console.log(appointment);
     setLoading(false);
   }, [appointment]);
 
@@ -39,13 +39,35 @@ const Appointments = ({navigation}) => {
     );
   };
 
+  const search = searchInput => {
+    if (searchInput) {
+      const filteredData = appointment.filter(item => {
+        const itemData = `${item.type.toUpperCase()}`;
+        const textData = searchInput.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setData(filteredData);
+    } else {
+      setData(appointment);
+    }
+  };
+
   return (
     <Container>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.uid}
+      <TextInput
+        placeholder="Pesquise aqui"
+        onChangeText={searchInput => search(searchInput)}
       />
+
+      {data.length > 0 ? (
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.uid}
+        />
+      ) : (
+        <Text>Nenhum resultado encontrado.</Text>
+      )}
       <AddFloatButton onClick={routeAddAppointment} />
       {loading && <Loading />}
     </Container>
