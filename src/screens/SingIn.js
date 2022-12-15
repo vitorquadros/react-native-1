@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, Alert} from 'react-native';
+import React, {useState} from 'react';
+import {ScrollView} from 'react-native';
 import MyButton from '../componentes/MyButton';
-import auth from '@react-native-firebase/auth';
-import {CommonActions} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components';
 import Loading from '../componentes/Loading';
-import firestore from '@react-native-firebase/firestore';
+import {AuthContext} from '../context/AuthProvider';
 
 const SingIn = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -14,46 +11,19 @@ const SingIn = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(true);
 
-  const entrar = async () => {
-    if (email !== '' && password !== '') {
-      try {
-        setLoading(true);
-        await auth().signInWithEmailAndPassword(email, password);
-        if (!auth().currentUser.emailVerified) {
-          Alert.alert('Atenção', 'Email não verificado!');
-          setLoading(false);
-          return;
-        }
-        const user = {email, password};
-        AsyncStorage.setItem('user_session', JSON.stringify(user));
-        setLoading(false);
-        // navigation.dispatch(
-        //   CommonActions.reset({
-        //     index: 0,
-        //     routes: [{name: 'Home'}],
-        //   }),
-        // );
-      } catch (error) {
-        setLoading(false);
-        console.error('SignIn, entrar: ' + error);
-        switch (error.code) {
-          case 'auth/user-not-found':
-            Alert.alert('Erro', 'Usuário não cadastrado.');
-            break;
-          case 'auth/wrong-password':
-            Alert.alert('Erro', 'Erro na senha.');
-            break;
-          case 'auth/invalid-email':
-            Alert.alert('Erro', 'Email inválido.');
-            break;
-          case 'auth/user-disabled':
-            Alert.alert('Erro', 'Usuário desabilitado.');
-            break;
-        }
-      }
-    } else {
-      Alert.alert('Atenção', 'Você deve preencher todos os campos.');
+  const {entrar} = useContext(AuthContext);
+
+  const handleSignIn = () => {
+    setLoading(true);
+    if (entrar(email, password)) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        }),
+      );
     }
+    setLoading(false);
   };
 
   return (
@@ -81,7 +51,7 @@ const SingIn = ({navigation}) => {
             onPress={() => navigation.navigate('RecuperarSenha')}>
             Esqueceu sua senha?
           </TextEsqueceuSenha>
-          <MyButton texto="ENTRAR" onClick={entrar} />
+          <MyButton texto="ENTRAR" onClick={handleSignIn} />
         </DivSuperior>
         <DivInferior>
           <DivOuHr>
@@ -95,7 +65,6 @@ const SingIn = ({navigation}) => {
               Cadastre-se
             </TextCadastrarSe>
           </DivCadastrarSe>
-          {/* {loading && <Loading />} */}
         </DivInferior>
       </ScrollView>
       {loading && <Loading />}
