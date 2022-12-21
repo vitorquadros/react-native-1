@@ -2,16 +2,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import MyButton from '../componentes/MyButton';
 import {Container, StyledInput} from './RecuperarSenha';
 import {AuthContext} from '../context/AuthProvider';
+import {Alert} from 'react-native';
 
 const SignUp = ({navigation}) => {
-  useEffect(() => {
-    navigation.setOptions({
-      title: 'Realizar cadastro',
-      headerStyle: {backgroundColor: 'darkred'},
-      headerTitleStyle: {color: 'white'},
-    });
-  }, [navigation]);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -19,17 +12,36 @@ const SignUp = ({navigation}) => {
 
   const {cadastrar} = useContext(AuthContext);
 
-  const handleSignUp = () => {
-    setLoading(true);
-    if (cadastrar(email, password, passwordConfirm)) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{name: 'SingIn'}],
-        }),
-      );
+  const handleSignUp = async () => {
+    if (email !== '' && password !== '' && passwordConfirm !== '') {
+      if (password.length > 6) {
+        if (password === passwordConfirm) {
+          let user = {};
+          user.email = email;
+          setLoading(true);
+          await cadastrar(user, password);
+          setLoading(false);
+          navigation.goBack();
+        } else {
+          Alert.alert('Erro', 'As senhas digitadas são diferentes.');
+        }
+      } else {
+        Alert.alert('Erro', 'A senha precisa ter mais de 6 caracteres.');
+      }
+    } else {
+      Alert.alert('Erro', 'Por favor, digite email e senha.');
     }
-    setLoading(false);
+
+    // setLoading(true);
+    // if (cadastrar(email, password, passwordConfirm)) {
+    //   navigation.dispatch(
+    //     CommonActions.reset({
+    //       index: 0,
+    //       routes: [{name: 'SingIn'}],
+    //     }),
+    //   );
+    // }
+    // setLoading(false);
   };
 
   return (

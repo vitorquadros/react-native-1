@@ -47,7 +47,6 @@ export const AppointmentProvider = ({children}) => {
         querySnapshot => {
           let arr = [];
           querySnapshot.forEach(doc => {
-            console.log(doc.id, ' => ', doc.data());
             const appointmentValue = {
               uid: doc.id,
               description: doc.data().description,

@@ -8,6 +8,12 @@ export const signInOptions = {
   headerTitleStyle: {color: 'white'},
 };
 
+export const signUpOptions = {
+  title: 'Realizar cadastro',
+  headerStyle: {backgroundColor: 'darkred'},
+  headerTitleStyle: {color: 'white'},
+};
+
 export const homeOptions = {
   title: 'Homepage',
   headerStyle: {backgroundColor: 'darkred'},

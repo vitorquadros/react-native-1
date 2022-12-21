@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, StyleSheet, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import MyButton from '../componentes/MyButton';
 import auth from '@react-native-firebase/auth';
 import styled from 'styled-components';

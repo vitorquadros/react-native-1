@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {Alert, ScrollView} from 'react-native';
 import MyButton from '../componentes/MyButton';
 import styled from 'styled-components';
 import Loading from '../componentes/Loading';
 import {AuthContext} from '../context/AuthProvider';
+import {CommonActions} from '@react-navigation/native';
 
 const SingIn = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -13,17 +14,25 @@ const SingIn = ({navigation}) => {
 
   const {entrar} = useContext(AuthContext);
 
-  const handleSignIn = () => {
-    setLoading(true);
-    if (entrar(email, password)) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{name: 'Home'}],
-        }),
-      );
+  const handleSignIn = async () => {
+    if (email !== '' && password !== '') {
+      setLoading(true);
+      await entrar(email, password);
+      setLoading(false);
+    } else {
+      Alert.alert('Erro', 'Por favor, digite email e senha.');
     }
-    setLoading(false);
+
+    // setLoading(true);
+    // if (entrar(email, password)) {
+    //   navigation.dispatch(
+    //     CommonActions.reset({
+    //       index: 0,
+    //       routes: [{name: 'Home'}],
+    //     }),
+    //   );
+    // }
+    // setLoading(false);
   };
 
   return (

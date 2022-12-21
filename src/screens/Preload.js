@@ -1,47 +1,83 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect} from 'react';
 import {CommonActions} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components';
 import {AuthContext} from '../context/AuthProvider';
 import {AppointmentContext} from '../context/AppointmentProvider';
+import {Alert} from 'react-native';
 
 const Preload = ({navigation}) => {
-  const {setUser, getUsers} = useContext(AuthContext);
+  const {user, setUser, getUsers, getUserCache} = useContext(AuthContext);
   const {getAppointments} = useContext(AppointmentContext);
 
-  const getUserCache = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('user_session');
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (e) {
-      console.error('Preload, getUserCache: ' + e);
-    }
-  };
-
-  const loginUser = async () => {
-    const user = await getUserCache();
-    setUser(user);
-    if (user) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{name: 'Home'}],
-        }),
-      );
-    }
-  };
-
   useEffect(() => {
-    loginUser();
+    // loginUser();
+    storeContextUser();
     const unsubscribeAppointments = getAppointments();
     const unsubscribeUsers = getUsers();
+    console.log(user);
+    console.log('aaaa');
 
     return () => {
       unsubscribeAppointments;
       unsubscribeUsers;
     };
   }, []);
+
+  const storeContextUser = async () => {
+    if (user) {
+      const jsonValue = await getUserCache();
+      const userCache = JSON.parse(jsonValue);
+      setUser(userCache);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        }),
+      );
+    } else {
+      auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .then(() => {
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            }),
+          );
+        })
+        .catch(e => {
+          console.log('SignIn: erro em entrar: ' + e);
+          switch (e.code) {
+            case 'auth/user-not-found':
+              Alert.alert('Erro', 'Usuário não cadastrado.');
+              break;
+            case 'auth/wrong-password':
+              Alert.alert('Erro', 'Erro na senha.');
+              break;
+            case 'auth/invalid-email':
+              Alert.alert('Erro', 'Email inválido.');
+              break;
+            case 'auth/user-disabled':
+              Alert.alert('Erro', 'Usuário desabilitado.');
+              break;
+          }
+        });
+    }
+  };
+
+  // const loginUser = async () => {
+  //   const user = await getUserCache();
+  //   setUser(user);
+  //   if (user) {
+  //     navigation.dispatch(
+  //       CommonActions.reset({
+  //         index: 0,
+  //         routes: [{name: 'Home'}],
+  //       }),
+  //     );
+  //   }
+  // };
 
   return (
     <Container>
