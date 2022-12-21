@@ -16,7 +16,6 @@ const Preload = ({navigation}) => {
     const unsubscribeAppointments = getAppointments();
     const unsubscribeUsers = getUsers();
     console.log(user);
-    console.log('aaaa');
 
     return () => {
       unsubscribeAppointments;

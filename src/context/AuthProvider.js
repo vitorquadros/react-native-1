@@ -74,15 +74,12 @@ export const AuthProvider = ({children}) => {
   };
 
   // Sign In
-  const entrar = async (email, password) => {
-    console.log('entrar 1');
-    console.log(email, password);
-    await auth()
+  const entrar = (email, password) => {
+    console.log(email, String(password));
+    auth()
       .signInWithEmailAndPassword(email, String(password))
       .then(() => {
-        console.log('entrar 2');
         if (auth().currentUser.emailVerified) {
-          console.log('foi entrar');
           getUser(password);
         } else {
           Alert.alert(
@@ -99,6 +96,7 @@ export const AuthProvider = ({children}) => {
         return 'foi';
       })
       .catch(e => {
+        console.log(e);
         switch (e.code) {
           case 'auth/user-not-found':
             Alert.alert('Erro', 'Usuário não cadastrado.');

@@ -14,10 +14,10 @@ const SingIn = ({navigation}) => {
 
   const {entrar} = useContext(AuthContext);
 
-  const handleSignIn = async () => {
+  const handleSignIn = () => {
     if (email !== '' && password !== '') {
       setLoading(true);
-      await entrar(email, password);
+      entrar(email, password);
       setLoading(false);
     } else {
       Alert.alert('Erro', 'Por favor, digite email e senha.');
