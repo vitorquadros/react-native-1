@@ -10,6 +10,38 @@ export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
 
+  // STORE CONTEXT USER
+  const storeContextUser = async () => {
+    if (user) {
+      const jsonValue = await getUserCache();
+      const userCache = JSON.parse(jsonValue);
+      setUser(userCache);
+      return true;
+    } else {
+      auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .then(() => {})
+        .catch(e => {
+          console.log('SignIn: erro em entrar: ' + e);
+          switch (e.code) {
+            case 'auth/user-not-found':
+              Alert.alert('Erro', 'Usuário não cadastrado.');
+              break;
+            case 'auth/wrong-password':
+              Alert.alert('Erro', 'Erro na senha.');
+              break;
+            case 'auth/invalid-email':
+              Alert.alert('Erro', 'Email inválido.');
+              break;
+            case 'auth/user-disabled':
+              Alert.alert('Erro', 'Usuário desabilitado.');
+              break;
+          }
+        });
+      return true;
+    }
+  };
+
   // STORE USER CACHE
   const storeUserCache = async value => {
     try {
@@ -220,6 +252,7 @@ export const AuthProvider = ({children}) => {
         entrar,
         cadastrar,
         getUserCache,
+        storeContextUser,
       }}>
       {children}
     </AuthContext.Provider>

@@ -12,58 +12,23 @@ const Preload = ({navigation}) => {
 
   useEffect(() => {
     // loginUser();
-    storeContextUser();
-    const unsubscribeAppointments = getAppointments();
-    const unsubscribeUsers = getUsers();
-    console.log(user);
-
-    return () => {
-      unsubscribeAppointments;
-      unsubscribeUsers;
-    };
-  }, []);
-
-  const storeContextUser = async () => {
-    if (user) {
-      const jsonValue = await getUserCache();
-      const userCache = JSON.parse(jsonValue);
-      setUser(userCache);
+    if (storeContextUser()) {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
           routes: [{name: 'Home'}],
         }),
       );
-    } else {
-      auth()
-        .signInWithEmailAndPassword(user.email, user.password)
-        .then(() => {
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{name: 'Home'}],
-            }),
-          );
-        })
-        .catch(e => {
-          console.log('SignIn: erro em entrar: ' + e);
-          switch (e.code) {
-            case 'auth/user-not-found':
-              Alert.alert('Erro', 'Usuário não cadastrado.');
-              break;
-            case 'auth/wrong-password':
-              Alert.alert('Erro', 'Erro na senha.');
-              break;
-            case 'auth/invalid-email':
-              Alert.alert('Erro', 'Email inválido.');
-              break;
-            case 'auth/user-disabled':
-              Alert.alert('Erro', 'Usuário desabilitado.');
-              break;
-          }
-        });
     }
-  };
+
+    const unsubscribeAppointments = getAppointments();
+    const unsubscribeUsers = getUsers();
+
+    return () => {
+      unsubscribeAppointments;
+      unsubscribeUsers;
+    };
+  }, []);
 
   // const loginUser = async () => {
   //   const user = await getUserCache();
