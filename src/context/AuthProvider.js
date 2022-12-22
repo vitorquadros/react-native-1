@@ -10,58 +10,6 @@ export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
 
-  // STORE CONTEXT USER
-  const storeContextUser = async () => {
-    if (user) {
-      const jsonValue = await getUserCache();
-      const userCache = JSON.parse(jsonValue);
-      setUser(userCache);
-      return true;
-    } else {
-      auth()
-        .signInWithEmailAndPassword(user.email, user.password)
-        .then(() => {})
-        .catch(e => {
-          console.log('SignIn: erro em entrar: ' + e);
-          switch (e.code) {
-            case 'auth/user-not-found':
-              Alert.alert('Erro', 'Usuário não cadastrado.');
-              break;
-            case 'auth/wrong-password':
-              Alert.alert('Erro', 'Erro na senha.');
-              break;
-            case 'auth/invalid-email':
-              Alert.alert('Erro', 'Email inválido.');
-              break;
-            case 'auth/user-disabled':
-              Alert.alert('Erro', 'Usuário desabilitado.');
-              break;
-          }
-        });
-      return true;
-    }
-  };
-
-  // STORE USER CACHE
-  const storeUserCache = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('user', jsonValue);
-    } catch (e) {
-      console.error('AuthUserProvider: erro ao salvar o user no cache: ' + e);
-    }
-  };
-
-  // GET USER CACHE
-  const getUserCache = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('user');
-      return jsonValue !== null ? jsonValue : null;
-    } catch (e) {
-      console.error('Preload, getUserCache: ' + e);
-    }
-  };
-
   // Sign Up
   const cadastrar = async (userValues, password) => {
     await auth()
@@ -145,6 +93,59 @@ export const AuthProvider = ({children}) => {
         }
       });
   };
+
+  // STORE CONTEXT USER
+  const storeContextUser = async () => {
+    if (user) {
+      const jsonValue = await getUserCache();
+      const userCache = JSON.parse(jsonValue);
+      setUser(userCache);
+      return true;
+    } else {
+      auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .then(() => {})
+        .catch(e => {
+          console.log('SignIn: erro em entrar: ' + e);
+          switch (e.code) {
+            case 'auth/user-not-found':
+              Alert.alert('Erro', 'Usuário não cadastrado.');
+              break;
+            case 'auth/wrong-password':
+              Alert.alert('Erro', 'Erro na senha.');
+              break;
+            case 'auth/invalid-email':
+              Alert.alert('Erro', 'Email inválido.');
+              break;
+            case 'auth/user-disabled':
+              Alert.alert('Erro', 'Usuário desabilitado.');
+              break;
+          }
+        });
+      return true;
+    }
+  };
+
+  // STORE USER CACHE
+  const storeUserCache = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('user', jsonValue);
+    } catch (e) {
+      console.error('AuthUserProvider: erro ao salvar o user no cache: ' + e);
+    }
+  };
+
+  // GET USER CACHE
+  const getUserCache = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('user');
+      return jsonValue !== null ? jsonValue : null;
+    } catch (e) {
+      console.error('getUserCache: ' + e);
+    }
+  };
+
   // const entrar = async (email, password) => {
   //   if (email !== '' && password !== '') {
   //     try {
