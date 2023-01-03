@@ -11,88 +11,73 @@ export const AuthProvider = ({children}) => {
   const [users, setUsers] = useState([]);
 
   // Sign Up
-  const cadastrar = (email, password, passwordConfirm) => {
-    if (email !== '' && password !== '' && passwordConfirm !== '') {
-      if (password.length > 5) {
-        if (password === passwordConfirm) {
-          auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(res => {
-              let userFirebase = auth().currentUser;
-              firestore()
-                .collection('users')
-                .doc(userFirebase.uid)
-                .set({
-                  email: email,
-                  name: 'Usuário teste',
-                })
-                .then(() => {
-                  console.log('Usuário adicionado');
-                  userFirebase
-                    .sendEmailVerification()
-                    .then(() => {
-                      Alert.alert(
-                        'Atenção',
-                        'Um email de verificação foi enviado para: ' + email,
-                        [
-                          {
-                            text: 'OK',
-                            onPress: () => {
-                              return true;
-                            },
-                          },
-                        ],
-                      );
-                    })
-                    .catch(error => {
-                      console.log('SignUp, cadastrar: ' + error);
-                      return false;
-                    });
-                })
-                .catch(error => {
-                  console.log('SignUp, cadastrar: ' + error);
-                  return false;
-                });
-            })
-            .catch(error => {
-              if (error.code === 'auth/email-already-in-use') {
-                console.log('Email em uso!');
-                return false;
-              }
-
-              if (error.code === 'auth/invalid-email') {
-                console.log('Email inválido!');
-                return false;
-              }
-            });
-        } else {
-          Alert.alert('Validação', 'As senhas precisam ser iguais.');
+  const cadastrar = async (userValues, password) => {
+    await auth()
+      .createUserWithEmailAndPassword(userValues.email, password)
+      .then(async () => {
+        let userFirebase = auth().currentUser;
+        firestore()
+          .collection('users')
+          .doc(userFirebase.uid)
+          .set({
+            email: userValues.email,
+            name: 'Usuário Comum',
+          })
+          .then(() => {
+            console.log('Usuário adicionado.');
+            userFirebase
+              .sendEmailVerification()
+              .then(() => {
+                Alert.alert(
+                  'Atenção',
+                  'Um email de verificação foi enviado para: ' +
+                    userValues.email,
+                );
+              })
+              .catch(error => {
+                console.log('SignUp, cadastrar: ' + error);
+              });
+          })
+          .catch(error => {
+            console.log('SignUp, cadastrar: ' + error);
+          });
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('Email em uso!');
         }
-      } else {
-        Alert.alert('Validação', 'A senha precisa ter 6 ou mais caracteres.');
-      }
-    } else {
-      Alert.alert('Erro', 'Por favor, digite email e senha.');
-    }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log('Email inválido!');
+        }
+      });
   };
 
   // Sign In
-  const entrar = async (email, password) => {
-    if (email !== '' && password !== '') {
-      try {
-        await auth().signInWithEmailAndPassword(email, password);
-        if (!auth().currentUser.emailVerified) {
-          Alert.alert('Atenção', 'Email não verificado!');
-
-          return false;
+  const entrar = (email, password) => {
+    console.log(email, String(password));
+    auth()
+      .signInWithEmailAndPassword(email, String(password))
+      .then(() => {
+        if (auth().currentUser.emailVerified) {
+          getUser(password);
+        } else {
+          Alert.alert(
+            'Erro',
+            'Você deve verificar o seu email para prosseguir.',
+          );
+          auth()
+            .signOut()
+            .then(() => {})
+            .catch(e => {
+              console.error('AuthUserProvider, signIn: ' + e);
+            });
         }
-        const user = {email, password};
-        AsyncStorage.setItem('user_session', JSON.stringify(user));
-
-        return true;
-      } catch (error) {
-        console.error('SignIn, entrar: ' + error);
-        switch (error.code) {
+        return 'foi';
+      })
+      .catch(e => {
+        console.log(e);
+        switch (e.code) {
           case 'auth/user-not-found':
             Alert.alert('Erro', 'Usuário não cadastrado.');
             break;
@@ -106,12 +91,95 @@ export const AuthProvider = ({children}) => {
             Alert.alert('Erro', 'Usuário desabilitado.');
             break;
         }
-        return false;
-      }
+      });
+  };
+
+  // STORE CONTEXT USER
+  const storeContextUser = async () => {
+    if (user) {
+      const jsonValue = await getUserCache();
+      const userCache = JSON.parse(jsonValue);
+      setUser(userCache);
+      return true;
     } else {
-      Alert.alert('Atenção', 'Você deve preencher todos os campos.');
+      auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .then(() => {})
+        .catch(e => {
+          console.log('SignIn: erro em entrar: ' + e);
+          switch (e.code) {
+            case 'auth/user-not-found':
+              Alert.alert('Erro', 'Usuário não cadastrado.');
+              break;
+            case 'auth/wrong-password':
+              Alert.alert('Erro', 'Erro na senha.');
+              break;
+            case 'auth/invalid-email':
+              Alert.alert('Erro', 'Email inválido.');
+              break;
+            case 'auth/user-disabled':
+              Alert.alert('Erro', 'Usuário desabilitado.');
+              break;
+          }
+        });
+      return true;
     }
   };
+
+  // STORE USER CACHE
+  const storeUserCache = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('user', jsonValue);
+    } catch (e) {
+      console.error('AuthUserProvider: erro ao salvar o user no cache: ' + e);
+    }
+  };
+
+  // GET USER CACHE
+  const getUserCache = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('user');
+      return jsonValue !== null ? jsonValue : null;
+    } catch (e) {
+      console.error('getUserCache: ' + e);
+    }
+  };
+
+  // const entrar = async (email, password) => {
+  //   if (email !== '' && password !== '') {
+  //     try {
+  //       await auth().signInWithEmailAndPassword(email, password);
+  //       if (!auth().currentUser.emailVerified) {
+  //         Alert.alert('Atenção', 'Email não verificado!');
+  //         return false;
+  //       }
+  //       const user = {email, password};
+  //       AsyncStorage.setItem('user', JSON.stringify(user));
+
+  //       return true;
+  //     } catch (error) {
+  //       console.error('SignIn, entrar: ' + error);
+  //       switch (error.code) {
+  //         case 'auth/user-not-found':
+  //           Alert.alert('Erro', 'Usuário não cadastrado.');
+  //           break;
+  //         case 'auth/wrong-password':
+  //           Alert.alert('Erro', 'Erro na senha.');
+  //           break;
+  //         case 'auth/invalid-email':
+  //           Alert.alert('Erro', 'Email inválido.');
+  //           break;
+  //         case 'auth/user-disabled':
+  //           Alert.alert('Erro', 'Usuário desabilitado.');
+  //           break;
+  //       }
+  //       return false;
+  //     }
+  //   } else {
+  //     Alert.alert('Atenção', 'Você deve preencher todos os campos.');
+  //   }
+  // };
 
   // Get Users
   const getUsers = () => {
@@ -136,9 +204,31 @@ export const AuthProvider = ({children}) => {
     return unsubscribe;
   };
 
+  // GET USER
+  const getUser = async password => {
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          console.log('foii');
+          doc.data().password = password;
+          storeUserCache(doc.data());
+          return doc.data();
+        } else {
+          console.log('AuthUserProvider, getUser: documento não localizado');
+        }
+      })
+      .catch(e => {
+        console.error('AuthUserProvider: getUser: ' + e);
+      });
+  };
+
   // Sign Out
   const signOut = () => {
-    AsyncStorage.removeItem('user_session')
+    setUser(null);
+    AsyncStorage.removeItem('user')
       .then(() => {
         auth()
           .signOut()
@@ -154,7 +244,17 @@ export const AuthProvider = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{user, setUser, signOut, getUsers, users, entrar, cadastrar}}>
+      value={{
+        user,
+        setUser,
+        signOut,
+        getUsers,
+        users,
+        entrar,
+        cadastrar,
+        getUserCache,
+        storeContextUser,
+      }}>
       {children}
     </AuthContext.Provider>
   );
