@@ -14,6 +14,7 @@ import {
   preloadOptions,
   userOptions,
 } from './appBarStyles';
+import MapAppointments from '../screens/MapAppointments';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,6 +37,11 @@ const AppStack = () => {
       <Drawer.Screen
         name="Appointments"
         component={Appointments}
+        options={appointmentsOptions}
+      />
+      <Drawer.Screen
+        name="MapAppointments"
+        component={MapAppointments}
         options={appointmentsOptions}
       />
     </Drawer.Navigator>

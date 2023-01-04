@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ScrollView} from 'react-native';
 import MyButton from '../componentes/MyButton';
 import styled from 'styled-components';

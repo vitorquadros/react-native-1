@@ -46,6 +46,14 @@ export default function CustomDrawerContent({navigation}) {
           </DivItem>
 
           <DivItem>
+            <Icon name="map-outline" size={25} color={COLORS.primaryDark} />
+            <ItemMenuText
+              onPress={() => navigation.navigate('MapAppointments')}>
+              Localizar Consultas
+            </ItemMenuText>
+          </DivItem>
+
+          <DivItem>
             <IconMaterial name="needle" size={25} color={COLORS.primaryDark} />
             <ItemMenuText onPress={() => navigation.navigate('Vaccines')}>
               Vacinas
