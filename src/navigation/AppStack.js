@@ -9,12 +9,16 @@ import Vaccine from '../screens/Vaccine';
 import Vaccines from '../screens/Vaccines';
 import {
   appointmentsOptions,
+  doctorOptions,
+  doctorsOptions,
   drawerOptions,
   homeOptions,
   preloadOptions,
   userOptions,
 } from './appBarStyles';
 import MapAppointments from '../screens/MapAppointments';
+import Doctors from '../screens/Doctors';
+import Doctor from '../screens/Doctor';
 
 const Drawer = createDrawerNavigator();
 
@@ -33,6 +37,12 @@ const AppStack = () => {
       <Drawer.Screen name="Home" component={Home} options={homeOptions} />
       <Drawer.Screen name="Vaccine" component={Vaccine} />
       <Drawer.Screen name="Vaccines" component={Vaccines} />
+      <Drawer.Screen name="Doctor" component={Doctor} options={doctorOptions} />
+      <Drawer.Screen
+        name="Doctors"
+        component={Doctors}
+        options={doctorsOptions}
+      />
       <Drawer.Screen name="Appointment" component={Appointment} />
       <Drawer.Screen
         name="Appointments"

@@ -5,10 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components';
 import {AuthContext} from '../context/AuthProvider';
 import {AppointmentContext} from '../context/AppointmentProvider';
+import {ApiContext} from '../context/ApiProvider';
 
 const Preload = ({navigation}) => {
   const {setUser, getUsers} = useContext(AuthContext);
   const {getAppointments} = useContext(AppointmentContext);
+  const {getApi} = useContext(ApiContext);
 
   const getUserCache = async () => {
     try {
@@ -36,6 +38,7 @@ const Preload = ({navigation}) => {
     loginUser();
     const unsubscribeAppointments = getAppointments();
     const unsubscribeUsers = getUsers();
+    getApi();
 
     return () => {
       unsubscribeAppointments;

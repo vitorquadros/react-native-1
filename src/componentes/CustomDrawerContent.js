@@ -29,7 +29,7 @@ export default function CustomDrawerContent({navigation}) {
 
           <DivItem>
             <Icon name="fitness-outline" size={25} color={COLORS.primaryDark} />
-            <ItemMenuText onPress={() => console.log('implementar')}>
+            <ItemMenuText onPress={() => navigation.navigate('Doctors')}>
               Médicos
             </ItemMenuText>
           </DivItem>

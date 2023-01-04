@@ -30,3 +30,11 @@ export const drawerOptions = {
 export const appointmentsOptions = {
   title: 'Consultas',
 };
+
+export const doctorsOptions = {
+  title: 'Médicos',
+};
+
+export const doctorOptions = {
+  title: 'Editar ou criar Médico',
+};
