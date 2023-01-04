@@ -40,6 +40,13 @@ const Preload = ({navigation}) => {
     const unsubscribeUsers = getUsers();
     getApi();
 
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      }),
+    );
+
     return () => {
       unsubscribeAppointments;
       unsubscribeUsers;

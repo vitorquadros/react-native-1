@@ -21,7 +21,8 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={COLORS.primaryDark} />
-      {user ? <AppStack /> : <AuthStack />}
+      {/* {user ? <AppStack /> : <AuthStack />} */}
+      <AppStack />
     </NavigationContainer>
   );
 }
